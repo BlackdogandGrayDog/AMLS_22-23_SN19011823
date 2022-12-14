@@ -51,16 +51,20 @@ def cnn_model_RGB(k_num, k_size, activation, p_size, fc_size):
     return model
 
 
+
+
+'''
+This part of the function references parts of the code in a blog Published in Towards Data Science
+https://towardsdatascience.com/visualizing-intermediate-activation-in-convolutional-neural-networks-with-keras-260b36d60d0
+'''
+
+
 def layer_outputs(images_dir, model):
     image_paths = [os.path.join(images_dir, l) for l in os.listdir(images_dir)]
     img = image.load_img(image_paths[90], target_size = (80, 80))
     img = image.img_to_array(img)
     img = np.expand_dims(img, axis = 0)
     img = img / 255.
-      
-    print(img.shape)
-    plt.imshow(img[0])
-    plt.show()
 
     layer_outputs = [layer.output for layer in model.layers[:4]]
     activation_model = models.Model(inputs = model.input, outputs = layer_outputs)

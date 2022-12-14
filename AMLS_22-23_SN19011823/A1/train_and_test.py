@@ -10,6 +10,7 @@ import cnn_model
 from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
 import numpy as np
+import seaborn as sns
 
 
 def train_and_test(X_train, y_train, X_test, y_test):
@@ -65,14 +66,10 @@ def conf_matrix(model, X_test, y_test):
     pred[np.where(pred > 0.5)] = 1
 
     conf_matrix = confusion_matrix(y_test, pred)
-
-    fig, ax = plt.subplots(figsize=(7.5, 7.5))
-    ax.matshow(conf_matrix, cmap=plt.cm.Blues, alpha=0.3)
-    for i in range(conf_matrix.shape[0]):
-        for j in range(conf_matrix.shape[1]):
-            ax.text(x=j, y=i,s=conf_matrix[i, j], va='center', ha='center', size='xx-large')
-     
+    plt.figure(figsize=(7.5, 7.5))
+    sns.heatmap(conf_matrix, annot=True, fmt = 'g')
     plt.xlabel('Predictions', fontsize=18)
     plt.ylabel('Actuals', fontsize=18)
-    plt.title('Confusion Matrix', fontsize=18)
+    plt.title('Test Confusion Matrix', fontsize=18)
     plt.show()
+

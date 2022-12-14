@@ -12,7 +12,9 @@ import cv2
 from matplotlib import pyplot as plt
 import train_and_test
 import cnn_model
+
 #%%
+
 def extract_labels(basedir, labels_filename, images_dir): ## Take dataset folder dir and label csv files as inputs
     labels_file = open(os.path.join(basedir, labels_filename), 'r')
     lines = labels_file.readlines()
@@ -62,13 +64,13 @@ def image_processing_RGB(basedir, images_dir):
 
 
 
-def train_image_plotting():
+def train_image_plotting(images_dir, num_image):
     image_paths = [os.path.join(images_dir, l) for l in os.listdir(images_dir)]
-    img = cv2.imread(image_paths[90], flags = 1)
+    img = cv2.imread(image_paths[num_image], flags = 1)
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     plt.subplot(1,2,1)
     plt.imshow(img)
-    img = cv2.imread(image_paths[90], flags = 0)
+    img = cv2.imread(image_paths[num_image], flags = 0)
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     plt.subplot(1,2,2)
     plt.imshow(img)
@@ -81,30 +83,37 @@ def train_image_plotting():
     plt.imshow(img)
     plt.show()
     
-#%%
+    
+    
+    
+#%% dir route
+
 basedir = '/Users/ericwei/Documents/UCL/Postgraduate/ELEC0134 Applied ML Systems I/Assignment/AMLS_22-23_SN19011823/Datasets/celeba'
 testdir = '/Users/ericwei/Documents/UCL/Postgraduate/ELEC0134 Applied ML Systems I/Assignment/AMLS_22-23_SN19011823/Datasets/celeba_test'
 images_dir = os.path.join(basedir,'img')
 test_images_dir = os.path.join(testdir,'img')
-
-labels_filename = 'labels.csv'
+labels_filename = 'labels.csv'   
+    
+#%% Training Labels
 y = extract_labels(basedir, labels_filename, images_dir)
 
+## GrayScale
 # X_train = image_processing(basedir, images_dir)
 # X_train, X_val, y_train, y_val = train_test_split(X_train,y, test_size=0.2)
 
-
+## RGB Scale
 X_train_RGB = image_processing_RGB(basedir, images_dir)
 # X_train_RGB, X_val_RGB, y_train_RGB, y_val_RGB = train_test_split(X_train_RGB, y, test_size=0.2)
 
+## Test Image and Label
 X_test = image_processing_RGB(testdir, test_images_dir)
 y_test = extract_labels(testdir, labels_filename, test_images_dir)
 
 history, result, model = train_and_test.train_and_test(X_train_RGB, y, X_test, y_test)
 train_and_test.conf_matrix(model, X_test, y_test)
 
+#%% Each Layer's output image
 cnn_model.layer_outputs(images_dir, model)
-
 
 #%% kernel_number Tuning
 
