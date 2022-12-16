@@ -29,7 +29,7 @@ import hyperpara_tuning
 import svm_model
 from matplotlib import pyplot as plt
 from numpy import random
-
+from sklearn.metrics import log_loss
 
 
 #%%
@@ -146,7 +146,7 @@ def extract_features_labels(s_model, detector, predictor, basedir, labels_filena
     It also extracts the gender label for each image.
     :return:
         landmark_features:  an array containing 68 landmark points for each image in which a face was detected
-        smile_labels:      an array containing the gender label (un-smile = 0 and smile = 1) for each image in
+        smile_labels:      an array containing the smile label (un-smile = 0 and smile = 1) for each image in
                             which a face was detected
     """
     image_paths = [os.path.join(images_dir, l) for l in os.listdir(images_dir)]
@@ -300,12 +300,14 @@ hyperpara_tuning.training_vs_cross_validation_score(X_train, y_train)
 
 #%% Train and validation
 pred, acc_score_train, conf_matrix_train = svm_model.img_SVM(X_train, y_train, X_train, y_train)
+train_loss = log_loss(y_true = y_train, y_pred = pred)
 
 #%% Train Confusion matrix
 svm_model.confusion_matrix_plot(conf_matrix_train, 'Train ')
 
 #%% Validation
 pred, acc_score_val, conf_matrix_val = svm_model.img_SVM(X_train, y_train, X_val, y_val)
+val_loss = log_loss(y_true = y_val, y_pred = pred)
 
 #%% Validation Confusion Matrix
 svm_model.confusion_matrix_plot(conf_matrix_val, 'Validation ')
@@ -315,6 +317,7 @@ X_test, y_test =  get_test_data('face', detector, predictor, testdir, labels_fil
 X_train, y_train =  get_test_data('face', detector, predictor, basedir, labels_filename, images_dir)
 
 pred, acc_score_test, conf_matrix_test = svm_model.img_SVM(X_train, y_train, X_test, y_test)
+test_loss = log_loss(y_true = y_test, y_pred = pred)
 
 #%% Test Confusion Matrix
 svm_model.confusion_matrix_plot(conf_matrix_test, 'Test ')
