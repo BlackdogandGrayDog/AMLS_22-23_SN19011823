@@ -10,7 +10,13 @@ from matplotlib import pyplot as plt
 import os
 import cv2
 
-def train_image_plotting(images_dir, num_image):
+'''
+as the module name shows, it is used for plotting image in this cases.
+The first function compare the original image and cropped eye image.
+The second one gives several different examples of eye images
+'''
+
+def train_image_plotting(images_dir, num_image): ## this function compare the original image and cropped eye image used for training
     image_paths = [os.path.join(images_dir, l) for l in os.listdir(images_dir)]
     img = cv2.imread(image_paths[num_image], flags = 1)
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
@@ -25,7 +31,7 @@ def train_image_plotting(images_dir, num_image):
     plt.show()
     
     
-def eye_image_plotting(eye_dir, num_image, num_image2, num_image3, num_image4):
+def eye_image_plotting(eye_dir, num_image, num_image2, num_image3, num_image4): ## this function gives several different examples of eye images
     image_paths = [os.path.join(eye_dir, l) for l in os.listdir(eye_dir)]
     img = cv2.imread(image_paths[num_image], flags = 1)
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)

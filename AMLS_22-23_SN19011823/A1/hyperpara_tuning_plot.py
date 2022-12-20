@@ -8,7 +8,15 @@ Created on Fri Dec  9 16:48:12 2022
 
 from matplotlib import pyplot as plt
 
-def training_validation_kernum_plot(histories, kernel_num):
+
+''' 
+Functions in this module are all used for plotting accuracy and loss of training and validation.
+Takes history input from model.fitting and gives the train plot.
+As each function name shows, they corresponds to kernel number, size, maxpooling size, fully connected units tunings plots, and Gray or RGB image tuning
+returns accuracy and loss scores
+'''
+
+def training_validation_kernum_plot(histories, kernel_num): ## Kernel number tuning plot accuracy score
 
     fig = plt.figure(figsize=(15,7.5))
     fig.suptitle('Training and validation accuracy', fontsize = 20, fontweight='bold')
@@ -34,7 +42,7 @@ def training_validation_kernum_plot(histories, kernel_num):
     return accs
 
 
-def training_validation_kernum_loss_plot(histories, kernel_num):
+def training_validation_kernum_loss_plot(histories, kernel_num): ## Kernel number tuning plot loss
 
     fig = plt.figure(figsize=(15,7.5))
     fig.suptitle('Training and validation loss', fontsize = 20, fontweight='bold')
@@ -65,7 +73,7 @@ def training_validation_kernum_loss_plot(histories, kernel_num):
 
 
 
-def training_validation_kersize_plot(histories, kernel_size):
+def training_validation_kersize_plot(histories, kernel_size):  ## Kernel size tuning plot accuracy score
 
     fig = plt.figure(figsize=(15,7.5))
     fig.suptitle('Training and validation accuracy', fontsize = 20, fontweight='bold')
@@ -91,7 +99,7 @@ def training_validation_kersize_plot(histories, kernel_size):
     return accs
 
 
-def training_validation_kersize_loss_plot(histories, kernel_size):
+def training_validation_kersize_loss_plot(histories, kernel_size): ## Kernel size tuning plot loss
 
     fig = plt.figure(figsize=(15,7.5))
     fig.suptitle('Training and validation loss', fontsize = 20, fontweight='bold')
@@ -128,7 +136,7 @@ def training_validation_kersize_loss_plot(histories, kernel_size):
 
 
 
-def training_validation_maxpoolsize_plot(histories, maxpool_size):
+def training_validation_maxpoolsize_plot(histories, maxpool_size):  ## max pooling tuning plot accuracy score
 
     fig = plt.figure(figsize=(18,5))
     fig.suptitle('Training and validation accuracy', fontsize = 15, fontweight='bold')
@@ -154,7 +162,7 @@ def training_validation_maxpoolsize_plot(histories, maxpool_size):
     return accs
 
 
-def training_validation_maxpoolsize_loss_plot(histories, maxpool_size):
+def training_validation_maxpoolsize_loss_plot(histories, maxpool_size):  ## max pooling tuning plot loss
 
     fig = plt.figure(figsize=(18,5))
     fig.suptitle('Training and validation loss', fontsize = 15, fontweight='bold')
@@ -185,7 +193,7 @@ def training_validation_maxpoolsize_loss_plot(histories, maxpool_size):
 
 
 
-def training_validation_fcsize_plot(histories, fc_size):
+def training_validation_fcsize_plot(histories, fc_size):        ## fully connected layer units tuning plot accuracy score
 
     fig = plt.figure(figsize=(15,7.5))
     fig.suptitle('Training and validation accuracy', fontsize = 15, fontweight='bold')
@@ -211,7 +219,7 @@ def training_validation_fcsize_plot(histories, fc_size):
     return accs
 
 
-def training_validation_fcsize_loss_plot(histories, fc_size):
+def training_validation_fcsize_loss_plot(histories, fc_size):    ## fully connected layer units tuning plot loss
 
     fig = plt.figure(figsize=(15,7.5))
     fig.suptitle('Training and validation loss', fontsize = 15, fontweight='bold')
@@ -242,7 +250,7 @@ def training_validation_fcsize_loss_plot(histories, fc_size):
 
 
 
-def training_validation_RGB_Gray_plot(history, history_RGB):
+def training_validation_RGB_Gray_plot(history, history_RGB): ## Gray Scale and RGB tuning plot accuracy and loss
     val_accs = []
     val_losses = []
     

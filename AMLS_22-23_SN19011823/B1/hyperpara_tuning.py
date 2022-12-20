@@ -12,11 +12,36 @@ import numpy as np
 from sklearn.model_selection import ShuffleSplit
 from matplotlib import pyplot as plt
 
+from sklearn.model_selection import GridSearchCV
+
+
+def svm_model_search(X_train, y_train):
+    
+    rbf = {'C': [1, 10], 'gamma': [0.0001, 0.001],'kernel': ['rbf']} 
+
+    poly = {'C': [0.1, 10], 'degree': [2, 4],'kernel': ['poly']} 
+
+    linear = {'C': [0.1, 1], 'kernel': ['linear']} 
+    
+    model_search = [rbf, poly, linear]
+      
+    ideal_model = GridSearchCV(SVC(), model_search, refit = True, verbose = 3)
+      
+    # fitting the model for parameter search
+    ideal_model.fit(X_train, y_train)
+    
+    return ideal_model
 
 
 def training_vs_cross_validation_score(X_train, y_train):
-    cv = ShuffleSplit(n_splits=100, test_size=0.2, random_state=0)
+    '''
+    this method used for ploting learning curve, which is traing and cross-validation (cv) score versus training samples.
+    '''
+    cv = ShuffleSplit(n_splits = 100, test_size=0.2, random_state=0) ## 100 iterations used for cv, and 20% of data used for validation seleted randomly
     svc = SVC(kernel="linear", C = 0.1)
+    '''
+    use learning_curve from sklearn library to generate train_sizes, train_scores, and test scores for the subsequent calculation
+    '''
     train_sizes, train_scores, test_scores = learning_curve(svc, X_train, y_train, cv = cv, n_jobs = -1, train_sizes = np.linspace(.1, 1.0, 5))
     
     train_scores_mean = np.mean(train_scores, axis = 1)

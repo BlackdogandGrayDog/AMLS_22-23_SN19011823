@@ -10,11 +10,15 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from matplotlib import pyplot as plt
 
+'''
+This model is used for constructing KNN model and corresponding plot function
+'''
+
 def KNN_model(X_train, y_train, X_val, y_val):
     KNN_accuracy = []
-    for k in range(1,5001, 5):
-        knn_clf = KNeighborsClassifier(n_neighbors = k)
-        knn_clf.fit(X_train,y_train)
+    for k in range(1,5001, 5): ## number of neighbours varys from 1 to 5000
+        knn_clf = KNeighborsClassifier(n_neighbors = k) ## build KNN model with k number of neighbours
+        knn_clf.fit(X_train,y_train) ## fit the model with training data
         ypred = knn_clf.predict(X_val)
         score = accuracy_score(y_val, ypred)
         KNN_accuracy.append(score)

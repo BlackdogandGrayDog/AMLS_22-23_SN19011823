@@ -6,24 +6,28 @@ Created on Sat Dec 10 02:05:18 2022
 @author: ericwei
 """
 
-import cnn_model
+import A1.cnn_model as cnn_model
 from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix
 import numpy as np
 import seaborn as sns
 
+'''
+This module is used for final training. It utilise whole training dataset and test dataset
+It includes training and testing function, and corresponding plotting, and constructing a confusion matrix
+'''
 
-def train_and_test(X_train, y_train, X_test, y_test):
+def train_and_test(X_train, y_train, X_test, y_test):  ## this function is used for training via training dataset and testing using test dataset
     model = cnn_model.cnn_model_RGB(16, (5,5), 'relu', (2,2), 512)
     model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['acc'])
     history = model.fit(X_train, y_train, batch_size=128, epochs = 6, validation_data=(X_test, y_test), shuffle = True)
     results = model.evaluate(X_test, y_test)
     train_and_test_plot(history)
     
-    return history, results, model
+    return history, results, model  ## return training and testing info for image plotting and model saving
 
 
-def train_and_test_plot(history):
+def train_and_test_plot(history):   ## this function utilise the previous one's output and plot training and testing accuracy and loss and is embeded in the previous function
     fig = plt.figure(figsize=(15,7.5))
     fig.suptitle('Training and Testing accuracy and loss', fontsize = 15, fontweight='bold')
     
@@ -59,11 +63,11 @@ def train_and_test_plot(history):
 
 
 
-def conf_matrix(model, X_test, y_test):
+def conf_matrix(model, X_test, y_test):  ## this function is used for plotting a confusion matrix, takes both x_test and y_test as input. For predictiton and compare
     
     pred = model.predict(X_test)
-    pred[np.where(pred < 0.5)] = 0
-    pred[np.where(pred > 0.5)] = 1
+    pred[np.where(pred < 0.5)] = 0  ## since we used sigmode which outputs some probablity, so we need to convert it to two categories.
+    pred[np.where(pred > 0.5)] = 1  ## where probability over 0.5 classify to 1, while smaller than 0.5 to 0
 
     conf_matrix = confusion_matrix(y_test, pred)
     plt.figure(figsize=(7.5, 7.5))

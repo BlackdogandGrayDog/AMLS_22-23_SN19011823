@@ -13,8 +13,12 @@ import os
 import numpy as np
 from matplotlib import pyplot as plt
 
+'''
+this module contains two identical cnn models, except input shape is different as one is for gray scale and the other one is for RGB scale.
+Also the 'layer output' function gives output of filters from each layer
+'''
 
-def cnn_model(k_num, k_size, activation, p_size, fc_size):
+def cnn_model(k_num, k_size, activation, p_size, fc_size): ## CNN model for gray scale
     model = models.Sequential()
     
     model.add(layers.Conv2D(k_num, k_size, activation = activation, input_shape=(80 ,80, 1)))
@@ -26,27 +30,23 @@ def cnn_model(k_num, k_size, activation, p_size, fc_size):
     model.add(layers.Flatten())
     model.add(layers.Dense(units = fc_size, activation = activation))
     model.add(layers.Dense(units = fc_size, activation = activation))
-    model.add(layers.Dense(units = 1, activation = 'sigmoid'))
+    model.add(layers.Dense(units = 1, activation = 'sigmoid')) ## As it is binary classification, activation is sigmoid and output unit is 1
     
     return model
 
 
-def cnn_model_RGB(k_num, k_size, activation, p_size, fc_size):
+def cnn_model_RGB(k_num, k_size, activation, p_size, fc_size): ## cnn model for RGB scale
     model = models.Sequential()
     model.add(layers.Conv2D(k_num, k_size, activation = activation, input_shape=(80 ,80, 3)))
-   # model.add(layers.Conv2D(8, (3, 3), activation = 'relu'))
     model.add(layers.MaxPooling2D(p_size))
-   # model.add(Dropout(d_value))
     
     model.add(layers.Conv2D(k_num, k_size, activation = activation))
     model.add(layers.MaxPooling2D(p_size))
-   # model.add(Dropout(d_value))
 
     model.add(layers.Flatten())
     model.add(layers.Dense(units = fc_size, activation = activation))
     model.add(layers.Dense(units = fc_size, activation = activation))
-   # model.add(Dropout(d_value))
-    model.add(layers.Dense(units = 1, activation = 'sigmoid'))
+    model.add(layers.Dense(units = 1, activation = 'sigmoid')) ## As it is binary classification, activation is sigmoid and output unit is 1
     
     return model
 

@@ -5,11 +5,14 @@ Created on Sun Dec 18 01:11:58 2022
 
 @author: ericwei
 """
+'''
+This module is simply combine hyperpara_tuning and plotting into one function and gives the max accuracy and min loss each choice can achive
 
-import hyperpara_tuning_model
-import hyperpara_tuning_plot
+'''
+import B2.hyperpara_tuning_model as hyperpara_tuning_model
+import B2.hyperpara_tuning_plot as hyperpara_tuning_plot
 
-def kernel_num_tuning(kernel_nums, train_gen, train_step_size, val_gen, val_step_size):
+def kernel_num_tuning(kernel_nums, train_gen, train_step_size, val_gen, val_step_size): ## kernel number tuning
 
     histories = hyperpara_tuning_model.kernel_num_tuning(kernel_nums, train_gen, train_step_size, val_gen, val_step_size)
     
@@ -28,7 +31,7 @@ def kernel_num_tuning(kernel_nums, train_gen, train_step_size, val_gen, val_step
 
 
 
-def kernel_size_tuning(kernel_num, kernel_size, train_gen, train_step_size, val_gen, val_step_size):
+def kernel_size_tuning(kernel_num, kernel_size, train_gen, train_step_size, val_gen, val_step_size): ## kernel size tuning
 
     histories = hyperpara_tuning_model.kernel_size_tuning(kernel_num, kernel_size, train_gen, train_step_size, val_gen, val_step_size)
     
@@ -48,7 +51,7 @@ def kernel_size_tuning(kernel_num, kernel_size, train_gen, train_step_size, val_
 
 
 
-def Maxpooling_size_tuning(kernel_num, kernel_size, maxpool_size, train_gen, train_step_size, val_gen, val_step_size):
+def Maxpooling_size_tuning(kernel_num, kernel_size, maxpool_size, train_gen, train_step_size, val_gen, val_step_size): ## maxpooling size tuning
 
     histories = hyperpara_tuning_model.maxpool_size_tuning(kernel_num, kernel_size, maxpool_size, train_gen, train_step_size, val_gen, val_step_size)
     
@@ -65,7 +68,7 @@ def Maxpooling_size_tuning(kernel_num, kernel_size, maxpool_size, train_gen, tra
     return acc_max, loss_min
 
 
-def fc_size_tuning(kernel_num, kernel_size, maxpool_size, fc_size, train_gen, train_step_size, val_gen, val_step_size):
+def fc_size_tuning(kernel_num, kernel_size, maxpool_size, fc_size, train_gen, train_step_size, val_gen, val_step_size): ## fully connected layer size tuning
 
     histories = hyperpara_tuning_model.fc_size_tuning(kernel_num, kernel_size, maxpool_size, fc_size, train_gen, train_step_size, val_gen, val_step_size)
     

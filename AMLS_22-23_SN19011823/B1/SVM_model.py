@@ -11,7 +11,9 @@ from sklearn.metrics import confusion_matrix
 from matplotlib import pyplot as plt
 import seaborn as sns
 
-
+'''
+selected svm model as it has the highest score in tuning, the following function used for building svm model
+'''
 
 def img_SVM(training_images, training_labels, test_images, test_labels):
     
@@ -27,12 +29,14 @@ def img_SVM(training_images, training_labels, test_images, test_labels):
 
 
 
-
+'''
+uses output from above function and plot a confusion matrix as in Task A2
+'''
 
 def confusion_matrix_plot(conf_matrix, name):
     plt.figure(figsize=(7.5, 7.5))
     sns.heatmap(conf_matrix, annot=True, fmt = 'g')
-    plt.xlabel('Predictions', fontsize=18)
-    plt.ylabel('Actuals', fontsize=18)
-    plt.title(name + 'Confusion Matrix', fontsize=18)
+    plt.xlabel('Predictions', fontsize = 18)
+    plt.ylabel('Actuals', fontsize = 18)
+    plt.title(name + 'Confusion Matrix', fontsize = 18)
     plt.show()

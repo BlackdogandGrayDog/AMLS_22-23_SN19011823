@@ -23,16 +23,15 @@ import os
 import numpy as np
 from keras_preprocessing import image
 import cv2
-import dlib
 from sklearn.model_selection import train_test_split
-import hyperpara_tuning
-import svm_model
 from matplotlib import pyplot as plt
 from numpy import random
-from sklearn.metrics import log_loss
 
 
-#%%
+'''
+the following functions most are from the reference details described above, used for extracting 68 landmarks in human faces.
+These landmarks are converted into array and used for classifying via a svm model in this case
+'''
 
 def shape_to_np(shape, dtype="int"):
     # initialize the list of (x, y)-coordinates
@@ -98,7 +97,9 @@ def run_dlib_shape(image, detector, predictor):
 
     return dlibout, resized_image
 
-
+'''
+the following function is modified from the above one, the output will only be points 49-68 which are month shapes on human faces
+'''
 
 def run_dlib_mouth_shape(image, detector, predictor):
     # in this function we load the image, detect the landmarks of the face, and then return the image and the landmarks
@@ -135,7 +136,7 @@ def run_dlib_mouth_shape(image, detector, predictor):
     # find largest face and keep
     dlibout = np.reshape(np.transpose(face_shapes[:, np.argmax(face_areas)]), [68, 2])
 
-    return dlibout[49: 68,:], resized_image
+    return dlibout[49: 68,:], resized_image   ## only returns mouth features
 
 
 
@@ -164,19 +165,19 @@ def extract_features_labels(s_model, detector, predictor, basedir, labels_filena
             # load image
             img = image.load_img(img_path, target_size=target_size, interpolation='bicubic')
             img = image.img_to_array(img)
-            if s_model == 'mouth':
-                features, _ = run_dlib_mouth_shape(img, detector, predictor)
-            if s_model == 'face':
+            if s_model == 'mouth':      ### in this case, we compare two training images, using face points or mouth ones.
+                features, _ = run_dlib_mouth_shape(img, detector, predictor) 
+            if s_model == 'face':       ### here are two separated models return different landmark features depends on inputs 
                 features, _ = run_dlib_shape(img, detector, predictor)
             if features is not None:
                 all_features.append(features)
                 all_labels.append(smile_labels[file_name])
                 
-            if features is None:
+            if features is None: ## some images are not be able to extracted features, needs to be eliminated from training
                 null_imgs.append(img_path)
 
     landmark_features = np.array(all_features)
-    smile_labels = (np.array(all_labels) + 1)/2 # simply converts the -1 into 0, so male=0 and female=1
+    smile_labels = (np.array(all_labels) + 1)/2 # simply converts the -1 into 0, so unsmile = 0 and smile = 1
 
     return landmark_features, smile_labels, null_imgs
 
@@ -188,13 +189,14 @@ def get_data(s_model, test_size, detector, predictor, basedir, labels_filename, 
     X = X.reshape((X.shape[0], X.shape[1] * X.shape[2]))
     
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = test_size, shuffle = True)
-    # X_train = X_train.reshape((X_train.shape[0], X_train.shape[1] * X_train.shape[2]))
-    # X_test = X_test.reshape((X_test.shape[0], X_test.shape[1] * X_test.shape[2]))
-   
+
     return X_train, X_val, y_train, y_val
 
 
-
+'''
+the following function is modified from the previous one, eliminate the train test split process.
+in order to utilise the whole training and test data for tuned model.
+'''
 def get_test_data(s_model, detector, predictor, testdir, labels_filename, test_images_dir):
     
     X, y, _ = extract_features_labels(s_model, detector, predictor, testdir, labels_filename, test_images_dir)
@@ -203,13 +205,16 @@ def get_test_data(s_model, detector, predictor, testdir, labels_filename, test_i
     return X, y
 
 
-
+'''
+the folling method are used to plot images used for training, where the 68 points and mouth points are plot on the image for comparison
+four subplots in this function (original, gray scale, facial feature and mouth features)
+'''
 
 def train_image_plotting(images_dir, num_image, detector, predictor):
     
     image_paths = [os.path.join(images_dir, l) for l in os.listdir(images_dir)]
     
-    plt.figure(figsize=(12,10))
+    plt.figure(figsize=(12,10))  ## first subplot is original image
     plt.suptitle('Facial and Mouth Feature Extraction', fontsize = 20, fontweight='bold')
     img = cv2.imread(image_paths[num_image], flags = 1)
     img = cv2.resize(img, (img.shape[1], img.shape[0]), interpolation = cv2.INTER_AREA)
@@ -221,7 +226,7 @@ def train_image_plotting(images_dir, num_image, detector, predictor):
     plt.xticks(fontsize = 15)
     plt.yticks(fontsize = 15)
     
-    img = cv2.imread(image_paths[num_image], flags = 0)
+    img = cv2.imread(image_paths[num_image], flags = 0)  ## second one is converted in grey scale
     img = cv2.resize(img, (img.shape[1], img.shape[0]), interpolation = cv2.INTER_AREA)
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     plt.subplot(2,2,2)
@@ -231,7 +236,7 @@ def train_image_plotting(images_dir, num_image, detector, predictor):
     plt.yticks(fontsize = 15)
     plt.title('Gray Scale Image',fontsize = 15)
     
-    plt.subplot(2,2,3)
+    plt.subplot(2,2,3)  ## third one has facial features on the image
     plt.subplots_adjust(wspace=0.1,hspace=0.1)
     plt.imshow(img)
     img = image.img_to_array(
@@ -244,7 +249,7 @@ def train_image_plotting(images_dir, num_image, detector, predictor):
     plt.yticks(fontsize = 15)
     plt.title('Face Feature Extraction',fontsize = 15)
     
-    img = cv2.imread(image_paths[num_image], flags = 0)
+    img = cv2.imread(image_paths[num_image], flags = 0) ## fourth one only contains mouth features
     img = cv2.resize(img, (img.shape[1], img.shape[0]), interpolation = cv2.INTER_AREA)
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     plt.subplot(2,2,4)
@@ -263,7 +268,10 @@ def train_image_plotting(images_dir, num_image, detector, predictor):
 
 
 
-
+'''
+not every image can be extracted as 69 points landmarks, therefore some null images are being identified and plotted,
+eliminated from training.
+'''
 
 def null_image_plot(detector, predictor, basedir, labels_filename, images_dir):
     _,_,null_images = extract_features_labels('mouth', detector, predictor, basedir, labels_filename, images_dir)
@@ -278,53 +286,6 @@ def null_image_plot(detector, predictor, basedir, labels_filename, images_dir):
             plt.imshow(img)
             plt.xticks(fontsize = 15)
             plt.yticks(fontsize = 15)
-
-#%% dir route
-basedir = '/Users/ericwei/Documents/UCL/Postgraduate/ELEC0134 Applied ML Systems I/Assignment/AMLS_22-23_SN19011823/Datasets/celeba'
-images_dir = os.path.join(basedir,'img')
-labels_filename = 'labels.csv'
-
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('/Users/ericwei/Documents/UCL/Postgraduate/ELEC0134 Applied ML Systems I/Assignment/AMLS_22-23_SN19011823/A2/shape_predictor_68_face_landmarks.dat')
-
-testdir = '/Users/ericwei/Documents/UCL/Postgraduate/ELEC0134 Applied ML Systems I/Assignment/AMLS_22-23_SN19011823/Datasets/celeba_test'
-test_images_dir = os.path.join(testdir,'img')
-
-#%% Hyper-Parameter Tuning
-X_train, X_val, y_train, y_val =  get_data('face', 0.2, detector, predictor, basedir, labels_filename, images_dir)
-# model = hyperpara_tuning.svm_model_search(X_train, y_train)
-# print(model.best_params_)
-# print(model.best_estimator_)
-#%% Learning Curve Plotting
-hyperpara_tuning.training_vs_cross_validation_score(X_train, y_train)
-
-#%% Train and validation
-pred, acc_score_train, conf_matrix_train = svm_model.img_SVM(X_train, y_train, X_train, y_train)
-train_loss = log_loss(y_true = y_train, y_pred = pred)
-
-#%% Train Confusion matrix
-svm_model.confusion_matrix_plot(conf_matrix_train, 'Train ')
-
-#%% Validation
-pred, acc_score_val, conf_matrix_val = svm_model.img_SVM(X_train, y_train, X_val, y_val)
-val_loss = log_loss(y_true = y_val, y_pred = pred)
-
-#%% Validation Confusion Matrix
-svm_model.confusion_matrix_plot(conf_matrix_val, 'Validation ')
-
-#%% Test
-X_test, y_test =  get_test_data('face', detector, predictor, testdir, labels_filename, test_images_dir)
-X_train, y_train =  get_test_data('face', detector, predictor, basedir, labels_filename, images_dir)
-
-pred, acc_score_test, conf_matrix_test = svm_model.img_SVM(X_train, y_train, X_test, y_test)
-test_loss = log_loss(y_true = y_test, y_pred = pred)
-
-#%% Test Confusion Matrix
-svm_model.confusion_matrix_plot(conf_matrix_test, 'Test ')
-
-#%% Image Plot
-train_image_plotting(images_dir, 90, detector, predictor)
-null_image_plot(detector, predictor, basedir, labels_filename, images_dir)
 
 
 

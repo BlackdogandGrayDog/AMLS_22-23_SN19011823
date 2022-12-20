@@ -10,6 +10,10 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
+'''
+this module is to extract original cartoon image as in A1, no longer converted to 68 landmark points
+'''
+
 def extract_labels(basedir, labels_filename, images_dir): ## Take dataset folder dir and label csv files as inputs
     labels_file = open(os.path.join(basedir, labels_filename), 'r')
     lines = labels_file.readlines()
@@ -27,7 +31,9 @@ def extract_labels(basedir, labels_filename, images_dir): ## Take dataset folder
     return train_labels
 
 
-
+'''
+this function use cv2 imread to read RGB scale image for training and resize to (80,80) for training
+'''
 def image_processing(basedir, images_dir):
     image_paths = [os.path.join(images_dir, l) for l in os.listdir(images_dir)]
     train_img = []
@@ -41,7 +47,9 @@ def image_processing(basedir, images_dir):
     
     return train_img
 
-
+'''
+as the name shows, this function used for ploting training image as in Task A1
+'''
 def train_image_plotting(images_dir, num_image):
     image_paths = [os.path.join(images_dir, l) for l in os.listdir(images_dir)]
     img = cv2.imread(image_paths[num_image], flags = 1)

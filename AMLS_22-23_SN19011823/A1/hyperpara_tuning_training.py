@@ -6,10 +6,15 @@ Created on Sat Dec 10 00:56:11 2022
 @author: ericwei
 """
 
-import hyperpara_tuning
-import hyperpara_tuning_plot
+import A1.hyperpara_tuning as hyperpara_tuning
+import A1.hyperpara_tuning_plot as hyperpara_tuning_plot
 
-def kernel_num_tuning(kernel_nums, X_train, y_train, X_val, y_val):
+'''
+This module is simply combine hyperpara_tuning and plotting into one function and gives the max accuracy and min loss each choice can achive
+
+'''
+
+def kernel_num_tuning(kernel_nums, X_train, y_train, X_val, y_val): ## kernel number tuning
 
     histories = hyperpara_tuning.kernel_num_tuning(kernel_nums, X_train, y_train, X_val, y_val)
     
@@ -28,7 +33,7 @@ def kernel_num_tuning(kernel_nums, X_train, y_train, X_val, y_val):
 
 
 
-def kernel_size_tuning(kernel_num, kernel_size, X_train, y_train, X_val, y_val):
+def kernel_size_tuning(kernel_num, kernel_size, X_train, y_train, X_val, y_val):  ## kernel size tuning
 
     histories = hyperpara_tuning.kernel_size_tuning(kernel_num, kernel_size, X_train, y_train, X_val, y_val)
     
@@ -48,7 +53,7 @@ def kernel_size_tuning(kernel_num, kernel_size, X_train, y_train, X_val, y_val):
 
 
 
-def Maxpooling_size_tuning(kernel_num, kernel_size, maxpool_size, X_train, y_train, X_val, y_val):
+def Maxpooling_size_tuning(kernel_num, kernel_size, maxpool_size, X_train, y_train, X_val, y_val): ## maxpooling size tuning
 
     histories = hyperpara_tuning.maxpool_size_tuning(kernel_num, kernel_size, maxpool_size, X_train, y_train, X_val, y_val)
     
@@ -69,7 +74,7 @@ def Maxpooling_size_tuning(kernel_num, kernel_size, maxpool_size, X_train, y_tra
 
 
 
-def fc_size_tuning(kernel_num, kernel_size, maxpool_size, fc_size, X_train, y_train, X_val, y_val):
+def fc_size_tuning(kernel_num, kernel_size, maxpool_size, fc_size, X_train, y_train, X_val, y_val): ## fully connected layer size tuning
 
     histories = hyperpara_tuning.fc_size_tuning(kernel_num, kernel_size, maxpool_size, fc_size, X_train, y_train, X_val, y_val)
     
@@ -92,7 +97,7 @@ def fc_size_tuning(kernel_num, kernel_size, maxpool_size, fc_size, X_train, y_tr
 
 def Gray_RGB_tuning(kernel_num, kernel_size, maxpool_size, fc_size, 
                     X_train, y_train, X_val, y_val, 
-                    X_train_RGB, y_train_RGB, X_val_RGB, y_val_RGB):
+                    X_train_RGB, y_train_RGB, X_val_RGB, y_val_RGB): ## RGB or gray scale tuning
     
     history = hyperpara_tuning.train_and_validate_Gray(kernel_num, kernel_size, maxpool_size, fc_size, X_train, y_train, X_val, y_val)
     history_RGB = hyperpara_tuning.train_and_validate_RGB(kernel_num, kernel_size, maxpool_size, fc_size, X_train_RGB, y_train_RGB, X_val_RGB, y_val_RGB)

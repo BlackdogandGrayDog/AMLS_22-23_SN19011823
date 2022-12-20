@@ -24,16 +24,15 @@ import os
 import numpy as np
 from keras_preprocessing import image
 import cv2
-import dlib
 from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
 from numpy import random
-import KNN_model
-import SVM_model
-import Preprocessing
-import hyperpara_tuning
-from sklearn.metrics import log_loss
 #%%
+
+'''
+this model is similar to the one in the Task A2, extracting the facial features in cartoon dataset.
+Detailed reference can be found on above reference.
+'''
 
 def shape_to_np(shape, dtype="int"):
     # initialize the list of (x, y)-coordinates
@@ -146,13 +145,14 @@ def get_data(test_size, detector, predictor, basedir, labels_filename, images_di
     X = X.reshape((X.shape[0], X.shape[1] * X.shape[2]))
     
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = test_size, shuffle = True)
-    # X_train = X_train.reshape((X_train.shape[0], X_train.shape[1] * X_train.shape[2]))
-    # X_test = X_test.reshape((X_test.shape[0], X_test.shape[1] * X_test.shape[2]))
-   
+
     return X_train, X_val, y_train, y_val
 
 
-
+'''
+As in task A2, this function plots the original image and the 68 points landmark on cartoon dataset face.
+Also, null image which cannot be extracted any feature are also being plotted via the second function.
+'''
 def train_image_plotting(images_dir, num_image, detector, predictor):
     
     image_paths = [os.path.join(images_dir, l) for l in os.listdir(images_dir)]
@@ -200,65 +200,7 @@ def null_image_plot(null_images):
         plt.yticks(fontsize = 15)
 
 
-#%%
-basedir = '/Users/ericwei/Documents/UCL/Postgraduate/ELEC0134 Applied ML Systems I/Assignment/AMLS_22-23_SN19011823/Datasets/cartoon_set'
-images_dir = os.path.join(basedir,'img')
-labels_filename = 'labels.csv'
 
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('/Users/ericwei/Documents/UCL/Postgraduate/ELEC0134 Applied ML Systems I/Assignment/AMLS_22-23_SN19011823/B1/shape_predictor_68_face_landmarks.dat')
-
-testdir = '/Users/ericwei/Documents/UCL/Postgraduate/ELEC0134 Applied ML Systems I/Assignment/AMLS_22-23_SN19011823/Datasets/cartoon_set_test'
-test_images_dir = os.path.join(testdir,'img')
-
-#%% Features Extraction Training
-train_image_plotting(images_dir, 93, detector, predictor)
-
-X_train, X_val, y_train, y_val = get_data(0.2, detector, predictor, basedir, labels_filename, images_dir)
-
-#%% KNN Training (Features Extraction)
-acc = KNN_model.KNN_model(X_train, y_train, X_val, y_val)
-KNN_model.KNN_model_plot(acc)
-
-#%% SVM Training (Features Extraction)
-pred, acc_score_val, conf_matrix_val = SVM_model.img_SVM(X_train, y_train, X_val, y_val)
-SVM_model.training_vs_cross_validation_score(X_train, y_train)
-
-
-
-#%% Orginal Figure Training
-train_img = Preprocessing.image_processing(basedir, images_dir)
-train_labels =  Preprocessing.extract_labels(basedir, labels_filename, images_dir)
-train_img = train_img.reshape((train_img.shape[0], train_img.shape[1] * train_img.shape[2] * train_img.shape[3]))
-
-X_train, X_val, y_train, y_val = train_test_split(train_img, train_labels, test_size = 0.2, shuffle = True)
-
-#%% Orginal Figure Testing
-test_img = Preprocessing.image_processing(testdir, test_images_dir)
-test_labels =  Preprocessing.extract_labels(testdir, labels_filename, test_images_dir)
-test_img = test_img.reshape((test_img.shape[0], test_img.shape[1] * test_img.shape[2] * test_img.shape[3]))
-
-#%% KNN Training (Original)
-acc = KNN_model.KNN_model(X_train, y_train, X_val, y_val)
-KNN_model.KNN_model_plot(acc)
-
-#%% SVM Training validation and testing (Original)
-pred, acc_score_train, conf_matrix_train, pred_prob = SVM_model.img_SVM(X_train, y_train, X_train, y_train)
-train_loss = log_loss(y_true = y_train, y_pred = pred_prob)
-
-pred, acc_score_val, conf_matrix_val, pred_prob = SVM_model.img_SVM(X_train, y_train, X_val, y_val)
-val_loss = log_loss(y_true = y_val, y_pred = pred_prob)
-
-pred, acc_score_test, conf_matrix_test, pred_prob = SVM_model.img_SVM(train_img, train_labels, test_img, test_labels)
-test_loss = log_loss(y_true = test_labels, y_pred = pred_prob)
-
-#%% Confusion Matrix
-SVM_model.confusion_matrix_plot(conf_matrix_train, 'Training ')
-SVM_model.confusion_matrix_plot(conf_matrix_val, 'Validation ')
-SVM_model.confusion_matrix_plot(conf_matrix_test, 'Test ')
-
-#%%
-hyperpara_tuning.training_vs_cross_validation_score(X_train, y_train)
 
 
 
