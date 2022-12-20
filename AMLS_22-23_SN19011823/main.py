@@ -35,7 +35,7 @@ A_labels_filename = 'labels.csv'
 A2_detector = dlib.get_frontal_face_detector()
 A2_predictor = dlib.shape_predictor(os.path.join('A2','shape_predictor_68_face_landmarks.dat'))   
 
-### Task A1
+# ### Task A1
 print('\n')
 print('##############################')
 print('Welcome to Task A1 ~')
@@ -46,7 +46,7 @@ A1_train_image_plotting(A_images_dir, 90) # task A1 training image plotting
 A1_result, A1_model = A1_main.train_and_testing(A_basedir, A_images_dir, A_testdir, A_test_images_dir, A_labels_filename)  # task A1 training and tuning
 A1_layer_outputs(A_images_dir, A1_model) # cnn filters output
 
-### Task A2
+# ### Task A2
 print('\n')
 print('##############################')
 print('Welcome to Task A2 ~')

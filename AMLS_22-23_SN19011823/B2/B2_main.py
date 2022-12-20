@@ -59,7 +59,7 @@ def KNN_training(basedir, labels_filename, eye_dir):
     print(max(KNN_accuracy))
     print('with the number of neighbours:')
     position = np.where(KNN_accuracy == max(KNN_accuracy))
-    position = np.array(position) * 5 ## since the line space of number of k is 5, therefore position need to be times by 5
+    position = (np.array(position) * 5) + 1 ## since the line space of number of k is 5, therefore position need to be times by 5, +1 becasue k starts from 1
     print(position)
     print('\n')
     print('Here is the plot of accuracy versus number of neighbours:')

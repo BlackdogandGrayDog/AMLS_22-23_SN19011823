@@ -16,7 +16,7 @@ This model is used for constructing KNN model and corresponding plot function
 
 def KNN_model(X_train, y_train, X_val, y_val):
     KNN_accuracy = []
-    for k in range(1,5001, 5): ## number of neighbours varys from 1 to 5000
+    for k in range(1,5001, 5): ## number of neighbours varys from 1 to 4996
         knn_clf = KNeighborsClassifier(n_neighbors = k) ## build KNN model with k number of neighbours
         knn_clf.fit(X_train,y_train) ## fit the model with training data
         ypred = knn_clf.predict(X_val)
@@ -27,7 +27,7 @@ def KNN_model(X_train, y_train, X_val, y_val):
 
 
 
-def KNN_model_plot(KNN_accuracy):
+def KNN_model_plot(KNN_accuracy): ## used for plotting accuracy score versus neighbour numbers
      plt.figure(figsize=(15,7.5))
      plt.suptitle('KNN Model Accuracy',fontsize = 20, fontweight='bold')
      plt.subplot(1,2,1)
@@ -40,7 +40,7 @@ def KNN_model_plot(KNN_accuracy):
      plt.ylabel('Accuracy Score', fontsize = 20, fontweight='bold')
      plt.subplots_adjust(wspace=0.3,hspace=0.5)
      
-     plt.subplot(1,2,2)
+     plt.subplot(1,2,2)     ## zoom in into 0 - 996 number of neighbours
      plt.plot(range(1,1001, 5), KNN_accuracy[0:200])
      plt.title('Zoom in 0 to 1000 Neighbours',fontsize = 20, fontweight='bold')
      plt.grid()

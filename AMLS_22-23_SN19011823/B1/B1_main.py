@@ -31,7 +31,7 @@ def feature_training_knn_svm(detector, predictor, basedir, labels_filename, imag
     print('\n')
     acc = np.array(acc)
     posi = np.where(acc == max(acc))
-    posi = np.array(posi) * 5 ## since the line space of number of k is 5, therefore position need to be times by 5
+    posi = (np.array(posi) * 5) + 1 ## since the line space of number of k is 5, therefore position need to be times by 5, 1 becasue k starts from 1
     print('With the number of neighbours of:')
     print(posi)
     print('The accuracy vs. Number of neighbours plot is:')
@@ -86,7 +86,7 @@ def train_and_test_knn_svm(basedir, images_dir, labels_filename, testdir, test_i
     print(max(acc))
     acc = np.array(acc)
     posi = np.where(acc == max(acc))
-    posi = np.array(posi) * 5 ## since the line space of number of k is 5, therefore position need to be times by 5
+    posi = (np.array(posi) * 5) + 1  ## since the line space of number of k is 5, therefore position need to be times by 5, 1 becasue k starts from 1
     print('With the number of neighbours of:')
     print(posi)
     print('\n')
