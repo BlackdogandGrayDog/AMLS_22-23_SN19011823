@@ -73,8 +73,7 @@ The Datasets folder keeps empty when upload to github, but during runing the 'ma
 
 The labels.csv file in each folder contains training and test labels. For instance, in cartoon_set and cartoon_set_test, it contains, file names, face shapes and eye colours (0-4), while in celeba and celeba_test set, it contains gender and smiling labels (-1 and 1)
 
-.
-└── Datasets
+Datasets
     ├── cartoon_set
     │   ├── img
     │   │   ├── 0.png
@@ -102,8 +101,7 @@ The labels.csv file in each folder contains training and test labels. For instan
 
 When runing the code, two eye_img folders will be added to cartoon_set and cartoon_set_test automatically via functions, then the structure should be looked like:
 
-.
-└── Datasets
+Datasets
     ├── cartoon_set
     │   ├── img
     │   │   ├── 0.png
