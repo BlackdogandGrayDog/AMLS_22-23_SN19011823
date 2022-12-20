@@ -71,8 +71,10 @@ The 'KNN_preprocessing.py' module extracts the cropped eye image and correspondi
 
 The Datasets folder keeps empty when upload to github, but during runing the 'main.py' or other files in this repo, it should have the following structure at initial:
 
+The dataset added in 'datasets' folder must follows the following file structure tree in order to make sure the code runs successfully
+
 The labels.csv file in each folder contains training and test labels. For instance, in cartoon_set and cartoon_set_test, it contains, file names, face shapes and eye colours (0-4), while in celeba and celeba_test set, it contains gender and smiling labels (-1 and 1)
-
+```
 .
 └── Datasets
     ├── cartoon_set
@@ -99,9 +101,9 @@ The labels.csv file in each folder contains training and test labels. For instan
         │   ├── 1.png
         │   └── ...
         └── labels.csv
-
+```
 When runing the code, two eye_img folders will be added to cartoon_set and cartoon_set_test automatically via functions, then the structure should be looked like:
-
+```
 .
 └── Datasets
     ├── cartoon_set
@@ -136,7 +138,7 @@ When runing the code, two eye_img folders will be added to cartoon_set and carto
         │   ├── 1.png
         │   └── ...
         └── labels.csv
-
+```
 
 # Working environment and requirements
 
