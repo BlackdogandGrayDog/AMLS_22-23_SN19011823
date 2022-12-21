@@ -54,8 +54,8 @@ print('##############################')
 print('\n')
 A2_main.model_tuning(A2_detector, A2_predictor, A_basedir, A_labels_filename, A_images_dir)
 A2_main.train_and_tesing_A2(A2_detector, A2_predictor, A_basedir, A_labels_filename, A_images_dir, A_testdir, A_test_images_dir)
-A2_train_image_plotting(A_images_dir, 90, A2_detector, A2_predictor)
-A2_null_image_plot(A2_detector, A2_predictor, A_basedir, A_labels_filename, A_images_dir)
+A2_train_image_plotting(A_images_dir, 90, A2_detector, A2_predictor)  ## task A2 training image plotting
+A2_null_image_plot(A2_detector, A2_predictor, A_basedir, A_labels_filename, A_images_dir) ## task A2 null image (no feature) plotting
 
 
 ### Chapter B
@@ -86,5 +86,5 @@ print('\n')
 B2_main.image_cropped_preprocessing(B_images_dir, B_basedir, B2_eye_dir, B_test_images_dir, B_testdir, B2_test_eye_dir)
 B2_main.KNN_training(B_basedir, B_labels_filename, B2_eye_dir)
 B2_main.CNN_hyperpara_tuning_training(B_basedir, B_labels_filename, B2_eye_dir, B_testdir, B2_test_eye_dir, B_images_dir)
-B2_train_image_plot.train_image_plotting(B_images_dir, 91)
-B2_train_image_plot.eye_image_plotting(B2_eye_dir, 97, 107, 85, 99)
+B2_train_image_plot.train_image_plotting(B_images_dir, 91) ## task B2 training image plotting (feature extraction)
+B2_train_image_plot.eye_image_plotting(B2_eye_dir, 97, 107, 85, 99) ## task B2 cropped eye image plotting 
