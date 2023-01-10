@@ -3,7 +3,6 @@
 """
 Created on Mon Dec 19 02:38:46 2022
 
-@author: ericwei
 """
 
 import A2.Preprocessing as Preprocessing

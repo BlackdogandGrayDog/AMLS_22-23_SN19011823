@@ -3,7 +3,6 @@
 """
 Created on Mon Dec 19 20:41:25 2022
 
-@author: ericwei
 
 This module summarises all the operations in Task B2, including three main parts, the first one will cropped and preprocessing the training image,
 the second part will involve the knn training, the third part will be the cnn model tuning training and testing

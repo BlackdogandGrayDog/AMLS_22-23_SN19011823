@@ -3,7 +3,6 @@
 """
 Created on Mon Dec 19 03:39:07 2022
 
-@author: ericwei
 """
 import B1.Preprocessing_feature_extraction as Preprocessing_feature_extraction
 import B1.KNN_model as KNN_model

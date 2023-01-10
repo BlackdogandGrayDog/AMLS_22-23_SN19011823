@@ -3,7 +3,6 @@
 """
 Created on Sun Dec 18 01:11:58 2022
 
-@author: ericwei
 """
 '''
 This module is simply combine hyperpara_tuning and plotting into one function and gives the max accuracy and min loss each choice can achive

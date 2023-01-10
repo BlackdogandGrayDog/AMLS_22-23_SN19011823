@@ -3,7 +3,6 @@
 """
 Created on Sun Dec 18 01:01:36 2022
 
-@author: ericwei
 """
 
 '''

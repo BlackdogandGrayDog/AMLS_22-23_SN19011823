@@ -3,7 +3,6 @@
 """
 Created on Sat Dec 10 02:05:18 2022
 
-@author: ericwei
 """
 
 import A1.cnn_model as cnn_model

@@ -3,7 +3,6 @@
 """
 Created on Sun Dec 18 19:55:29 2022
 
-@author: ericwei
 
 this module contains two main operations in Task A1, first one is hyperparameter tuning, the second one is training and test of the model after tuning.
 which uses whole training dataset and test dataset.

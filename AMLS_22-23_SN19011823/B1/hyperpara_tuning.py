@@ -3,7 +3,6 @@
 """
 Created on Fri Dec 16 02:11:51 2022
 
-@author: ericwei
 """
 
 from sklearn.svm import SVC

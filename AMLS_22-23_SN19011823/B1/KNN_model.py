@@ -3,7 +3,6 @@
 """
 Created on Thu Dec 15 00:40:12 2022
 
-@author: ericwei
 """
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score

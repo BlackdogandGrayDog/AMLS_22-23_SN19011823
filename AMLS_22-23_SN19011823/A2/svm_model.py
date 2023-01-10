@@ -3,7 +3,6 @@
 """
 Created on Mon Dec 12 03:33:07 2022
 
-@author: ericwei
 """
 from sklearn import svm
 from sklearn.metrics import accuracy_score

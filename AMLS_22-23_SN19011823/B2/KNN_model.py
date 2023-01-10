@@ -3,7 +3,6 @@
 """
 Created on Sat Dec 17 18:51:02 2022
 
-@author: ericwei
 """
 
 from sklearn.neighbors import KNeighborsClassifier

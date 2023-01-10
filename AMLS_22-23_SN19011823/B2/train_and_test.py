@@ -3,7 +3,6 @@
 """
 Created on Sun Dec 18 04:19:30 2022
 
-@author: ericwei
 """
 
 import B2.CNN_model as CNN_model

@@ -3,7 +3,6 @@
 """
 Created on Sat Dec 10 00:56:11 2022
 
-@author: ericwei
 """
 
 import A1.hyperpara_tuning as hyperpara_tuning

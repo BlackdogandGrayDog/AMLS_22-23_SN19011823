@@ -3,7 +3,6 @@
 """
 Created on Fri Dec  9 16:48:12 2022
 
-@author: ericwei
 """
 
 from matplotlib import pyplot as plt

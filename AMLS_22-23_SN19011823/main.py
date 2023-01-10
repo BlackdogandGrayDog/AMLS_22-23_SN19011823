@@ -3,7 +3,6 @@
 """
 Created on Sun Dec 18 23:53:28 2022
 
-@author: ericwei
 
 This is main.py file, click 'run file' icon, it will automatically go through all the tasks
 
